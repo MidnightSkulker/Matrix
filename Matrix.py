@@ -1,5 +1,13 @@
 #!/usr/local/bin/python3
 # This import supports class annotations, e.g. def mulid(self) -> Elem
+'''
+Haskelle White
+Period 3 CSP
+
+paramters : integers, floats, rationals, any number
+returns: An evaluated and solved matrix
+'''
+
 from __future__ import annotations
 
 # An element is a member of a Ring with Identity
@@ -30,6 +38,7 @@ class IntCRI(Elem):
     def mulid(self): return 1
     def mul(self,a,b): return a*b
     def add(self,a,b): return a+b
+
     def read(self): int(input())
     def out(self,x): print(x)
 
@@ -39,8 +48,34 @@ class IntCRI(Elem):
 class Matrix(Elem):
     # Identity matrix (all 1s on the diagonal, zeros elsewhere)
     # This is the multiplicative identity for matrices
-    def id(self) -> Matrix:
-        pass
+
+    # Representation of the matrix
+    # The matrix will be a dictionary of indices with values, like this
+    # {'dim':(2,2), (0,0):1, (0,1):2, (1,0):0, (1,1):3}
+
+    # The multiplicative identity for matrices, which is a square matrix that
+    # has a 1 on each element of the diagonal, and zero everywhere else.
+    # For example, the identity for 2 x 2 matrices is
+    # {'dim':(2,2), (0,0):1, (0,1):0, (1,0):0, (1,1):1}
+    # Argument dim: A pair specifying the size of the matrix
+    # A typical call looks like: id((3,3))
+    def id(self,dim) -> Matrix:
+        identityMatrix = {'dim':dim}
+        rows = dim[0]
+        cols = dim[1]
+        # Identity matrix must be a square matrix
+        if rows != cols:
+            return None
+        # Enter 1 in each diagonal element, and 0 elsewhere
+        for i in range(0,cols):
+            for j in range(0,rows):
+                # If it is a diagonal element
+                if i == j:
+                    identityMatrix[(i,j)] = 1
+                # Otherwise it is off the diagonal
+                else:
+                    identityMatrix[(i,j)] = 0
+        return identityMatrix
     # Zero filled matrix (Additive identity for matrices)
     def zero(self) -> Matrix:
         pass
