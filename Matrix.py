@@ -4,7 +4,7 @@
 Haskelle White
 Period 3 CSP
 
-paramters : integers, floats, rationals, any number
+parameters: integers, floats, rationals, any number
 returns: An evaluated and solved matrix
 '''
 
@@ -42,7 +42,7 @@ class IntCRI(Elem):
     def read(self): int(input())
     def out(self,x): print(x)
 
-# For now, only two dimensional matrices are represented
+# For now, only two-dimensional matrices are represented
 # Later we can generalize to n-dimensional matrices
 # Infinite dimensional matrices will require some more work :) unless we use Haskell :)
 class Matrix(Elem):
@@ -59,7 +59,7 @@ class Matrix(Elem):
     # {'dim':(2,2), (0,0):1, (0,1):0, (1,0):0, (1,1):1}
     # Argument dim: A pair specifying the size of the matrix
     # A typical call looks like: id((3,3))
-    def id(self,dim) -> Matrix:
+    def id(self, dim) -> Matrix:
         identityMatrix = {'dim':dim}
         rows = dim[0]
         cols = dim[1]
@@ -76,20 +76,61 @@ class Matrix(Elem):
                 else:
                     identityMatrix[(i,j)] = 0
         return identityMatrix
+
     # Zero filled matrix (Additive identity for matrices)
-    def zero(self) -> Matrix:
-        pass
+    def zero(self,dim) -> Matrix:
+        zeroMatrix = {'dim':dim}
+        rows = dim[0]
+        cols = dim[1]
+        for i in range(0, rows):
+            for j in range(0, cols):
+                zeroMatrix[(i,j)] = 0
+
     # Multiply two matrices
     def mul(self, a, b) -> Matrix:
-        pass
+        dima = a['dim']
+        dimb = b['dim']
+        # Number of columns in a must equal number of rows in b
+        if dima[1] != dimb[0]:
+            return None
+        productMatrix = {'dim':(dima[0], dimb[1])}
+        rows = dima[0]
+        cols = dimb[1]
+        for i in range(0, rows):
+            for j in range(0, cols):
+                productMatrix[(i,j)] = 0
+                for k in range(0, dima[1]):
+                    productMatrix[(i,j)] += a[(i,k)] * b[(k,j)]
+        return productMatrix
+
     # Add two matrices
     def add(self, a, b) -> Matrix:
-        pass
-    # Raise a matrix to an integer power
-    def power(self, a, n) -> Matrix:
-        pass
+        dima = a['dim']
+        dimb = b['dim']
+        # To add two matrices, they must have the same shape
+        if dima != dimb:
+            return None
+        sumMatrix = {'dim':}
+        for i in range(0, dima[0]):
+            for j in range(0, dima[1]):
+                sumMatrix[(i,j)] = a[(i,j)] + b[(i,j)] # access(b,(i,j))
+        return sumMatrix
+
+    # Raise a matrix a to an integer power n
+    def power(self, a, n:int) -> Matrix:
+        dim = a['dim']
+        rows = dim[0]
+        cols = dim[1]
+        # Can only do powers of a square matrix
+        if rows != cols:
+            return None
+        powerMatrix = id(dim)
+        for i in range(0, n):
+            powerMatrix = mul(powerMatrix, a)
+        return powerMatrix
+
     # Access the element at a given set of indices for the matrix
-    def access(self, idx) -> Elem:
+    def access(self, a, idx) -> Elem:
         pass
     # Read in a matrix of the element type
     def read(self) -> Matrix:
