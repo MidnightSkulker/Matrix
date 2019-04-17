@@ -11,8 +11,9 @@ returns: An evaluated and solved matrix
 from __future__ import annotations
 
 # An element is a member of a Ring with Identity
-# This is a class with addition and multiplication and multiplicative and additive
-# identities, which is enough to support matrix multiplication.
+# This is a class with addition and multiplication and multiplicative
+# and additive identities, which is enough to support matrix
+# multiplication.
 class Elem:
     # Multiplicative Identity (e.g. 1 for integers)
     def mulid(self) -> Elem:
@@ -44,8 +45,9 @@ class IntCRI(Elem):
 
 # For now, only two-dimensional matrices are represented
 # Later we can generalize to n-dimensional matrices
-# Infinite dimensional matrices will require some more work :) unless we use Haskell :)
-class Matrix(Elem):
+# Infinite dimensional matrices will require some more work :)
+# unless we use Haskell :)
+class Matrix():
     # Identity matrix (all 1s on the diagonal, zeros elsewhere)
     # This is the multiplicative identity for matrices
 
@@ -110,7 +112,7 @@ class Matrix(Elem):
         # To add two matrices, they must have the same shape
         if dima != dimb:
             return None
-        sumMatrix = {'dim':}
+        sumMatrix = {'dim':(dima, dimb)}
         for i in range(0, dima[0]):
             for j in range(0, dima[1]):
                 sumMatrix[(i,j)] = a[(i,j)] + b[(i,j)] # access(b,(i,j))
@@ -130,7 +132,7 @@ class Matrix(Elem):
         return powerMatrix
 
     # Access the element at a given set of indices for the matrix
-    def access(self, a, idx) -> Elem:
+    def access(self, a, idx):
         return a[idx]
 
     # Read in a matrix of the element type
@@ -138,6 +140,35 @@ class Matrix(Elem):
     def read(self,f) -> Matrix:
         return eval(f.read())
 
+    # Get the nth row of the matrix a, presented as a list
+    def getNthRow(self, a, n):
+        dima = a['dim']
+        rows = dim[0]
+        cols = dim[1]
+        if n >= rows or n < 0:
+            return None
+        # Get a list for the nth row
+        rown = []
+        for x in a:
+            if a[0] == n:
+                rown.append(x)
+        return rown
+
     # Print out an element of the matrix
     def out(self, a) -> Matrix:
-        pass
+        dima = a['dim']
+        rows = dim[0]
+        cols = dim[1]
+        for j in range(rows):
+            rowj = getNthRow9(a,j)
+            print(rowj)
+
+testMatrix1 = {'dim': (2,2), (0,0):7, (0,1):5, (1,0):2, (1,1):4}
+testMatrix2 = {'dim': (2,2), (1,1):4, (0,1):5, (1,0):2, (0,0):7}
+
+testFile = open('test', 'r')
+
+m = Matrix()
+x = m.mul(testMatrix1, testMatrix2)
+m.out(x)
+
