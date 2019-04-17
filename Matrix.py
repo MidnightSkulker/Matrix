@@ -131,10 +131,13 @@ class Matrix(Elem):
 
     # Access the element at a given set of indices for the matrix
     def access(self, a, idx) -> Elem:
-        pass
+        return a[idx]
+
     # Read in a matrix of the element type
-    def read(self) -> Matrix:
-        pass
+    # The matrix is presented as a dictionary in the input
+    def read(self,f) -> Matrix:
+        return eval(f.read())
+
     # Print out an element of the matrix
     def out(self, a) -> Matrix:
         pass
