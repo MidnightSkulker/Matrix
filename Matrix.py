@@ -117,20 +117,16 @@ class Matrix():
 
     # Get the nth row of the matrix a, presented as a list
     def getNthRow(self, n):
-        rowz = self.rows()
-        if n >= rowz or n < 0:
-            return None
-        # Get a list for the nth row
+        if n >= self.rows() or n < 0: return None
+        # Get a list (rown) for the nth row
         rown = []
         for x in self.matrix:
-            # Skip the dimension element
-            if x == 'dim': continue
+            if x == 'dim': continue # Skip the dimension element
             if x[0] == n: rown.append(x)
         return rown
 
     # Print out an element of the matrix
     def out(self) -> Matrix:
-        print('out: ', self.matrix)
         rowz = self.rows()
         for j in range(rowz):
             print(self.getNthRow(j))
