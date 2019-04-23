@@ -25,11 +25,8 @@ class Matrix():
 
     # Zero filled matrix (Additive identity for matrices)
     def zero(self,dim) -> Matrix:
-        zeroMatrix = {'dim':dim}
-        rows = dim[0]
-        cols = dim[1]
-        for i in range(0, rows):
-            for j in range(0, cols):
+        for i in range(0, self.rows()):
+            for j in range(0, self.cols()):
                 zeroMatrix[(i,j)] = 0
 
     # Initializer for the matrix. It can be initialized by a dictionary
@@ -51,27 +48,27 @@ class Matrix():
     # Argument dim: A pair specifying the size of the matrix
     # A typical call looks like: id((3,3))
     def id(self, dim) -> Matrix:
-        rows = dim[0]
-        cols = dim[1]
+        rowz = self.rows()
+        colz = self.cols()
         identityMatrix = {'dim':dim}
         # Identity matrix must be a square matrix
-        if rows != cols:
+        if rowz != colz:
             return None
         # Enter 1 in each diagonal element, and 0 elsewhere
-        for i in range(0,cols):
-            for j in range(0,rows):
+        for i in range(0,colz):
+            for j in range(0,rowz):
                 # If it is a diagonal element
                 if i == j:
                     identityMatrix[(i,j)] = 1
                 # Otherwise it is off the diagonal
                 else:
                     identityMatrix[(i,j)] = 0
-        return identityMatrix
+        return Matrix(identityMatrix)
 
     # Multiply the matrix by another matrix
     def mul(self, b) -> Matrix:
-        dima = self.matrix['dim']
-        dimb = b['dim']
+        dima = self.dim()
+        dimb = b.dom()
         # Number of columns in a must equal number of rows in b
         if dima[1] != dimb[0]:
             return None
@@ -82,20 +79,18 @@ class Matrix():
             for j in range(0, cols):
                 productMatrix[(i,j)] = 0
                 for k in range(0, dima[1]):
-                    productMatrix[(i,j)] += matrix[(i,k)] * b[(k,j)]
+                    productMatrix[(i,j)] += self.matrix[(i,k)] * b.access(k,j)
         return Matrix(productMatrix)
 
     # Add two matrices
-    def add(self, a, b) -> Matrix:
-        dima = a['dim']
-        dimb = b['dim']
+    def add(self, b:Matrix) -> Matrix:
         # To add two matrices, they must have the same shape
-        if dima != dimb:
+        if self.dim() != b.dim():
             return None
-        sumMatrix = {'dim':(dima, dimb)}
-        for i in range(0, dima[0]):
-            for j in range(0, dima[1]):
-                sumMatrix[(i,j)] = a[(i,j)] + b[(i,j)] # access(b,(i,j))
+        sumMatrix = {'dim':(self.rows(), self.cols())}
+        for i in range(0, self.rows()):
+            for j in range(0, self.cols()):
+                sumMatrix[(i,j)] = self.access(i,j) + b.access(i,j)
         return sumMatrix
 
     # Raise a matrix a to an integer power n
@@ -113,12 +108,12 @@ class Matrix():
 
     # Access the element at a given set of indices for the matrix
     def access(self, idx):
-        return matrix[idx]
+        return self.matrix[idx]
 
     # Read in a matrix of the element type
     # The matrix is presented as a dictionary in the input
     def read(self,f) -> Matrix:
-        return eval(f.read())
+        return Matrix(eval(f.read()))
 
     # Get the nth row of the matrix a, presented as a list
     def getNthRow(self, n):
