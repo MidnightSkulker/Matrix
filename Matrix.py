@@ -18,6 +18,11 @@ class Matrix():
     # The initial representation of the matrix
     matrix = {}
 
+    # Return the dimensions of the matrix
+    def dim(self): return self.matrix['dim']
+    def rows(self): return self.matrix['dim'][0]
+    def cols(self): return self.matrix['dim'][1]
+
     # Zero filled matrix (Additive identity for matrices)
     def zero(self,dim) -> Matrix:
         zeroMatrix = {'dim':dim}
@@ -117,30 +122,23 @@ class Matrix():
 
     # Get the nth row of the matrix a, presented as a list
     def getNthRow(self, n):
-        dim = self.matrix['dim']
-        rows = dim[0]
-        cols = dim[1]
-        if n >= rows or n < 0:
+        rowz = self.rows()
+        if n >= rowz or n < 0:
             return None
         # Get a list for the nth row
         rown = []
         for x in self.matrix:
             # Skip the dimension element
-            if x == 'dim':
-                continue
-            if x[0] == n:
-                rown.append(x)
+            if x == 'dim': continue
+            if x[0] == n: rown.append(x)
         return rown
 
     # Print out an element of the matrix
     def out(self) -> Matrix:
         print('out: ', self.matrix)
-        dim = self.matrix['dim']
-        rows = dim[0]
-        cols = dim[1]
-        for j in range(rows):
-            rowj = self.getNthRow(j)
-            print(rowj)
+        rowz = self.rows()
+        for j in range(rowz):
+            print(self.getNthRow(j))
 
 testMatrix1 = Matrix({'dim': (2,2), (0,0):7, (0,1):5, (1,0):2, (1,1):4})
 testMatrix2 = Matrix({'dim': (2,2), (1,1):4, (0,1):5, (1,0):2, (0,0):7})
