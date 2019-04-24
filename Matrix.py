@@ -67,7 +67,7 @@ class Matrix():
     # Multiply the matrix by another matrix
     def mul(self, b) -> Matrix:
         dima = self.dim()
-        dimb = b.dom()
+        dimb = b.dim()
         # Number of columns in a must equal number of rows in b
         if dima[1] != dimb[0]:
             return None
