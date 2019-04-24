@@ -78,7 +78,7 @@ class Matrix():
             for j in range(0, cols):
                 productMatrix[(i,j)] = 0
                 for k in range(0, dima[1]):
-                    productMatrix[(i,j)] += self.matrix[(i,k)] * b.access(k,j)
+                    productMatrix[(i,j)] += self.matrix[(i,k)] * b.access((k,j))
         return Matrix(productMatrix)
 
     # Add two matrices
@@ -89,8 +89,8 @@ class Matrix():
         sumMatrix = {'dim':(self.rows(), self.cols())}
         for i in range(0, self.rows()):
             for j in range(0, self.cols()):
-                sumMatrix[(i,j)] = self.access(i,j) + b.access(i,j)
-        return sumMatrix
+                sumMatrix[(i,j)] = self.access((i,j)) + b.access((i,j))
+        return Matrix(sumMatrix)
 
     # Raise a matrix a to an integer power n
     def power(self, a, n:int) -> Matrix:
@@ -118,10 +118,15 @@ class Matrix():
     def getNthRow(self, n):
         if n >= self.rows() or n < 0: return None
         # Get a list (rown) for the nth row
-        rown = []
+        rownidx = []
+        # Get the list of keys for the nth row
         for x in self.matrix:
             if x == 'dim': continue # Skip the dimension element
-            if x[0] == n: rown.append(self.access(x))
+            if x[0] == n: rownidx.append(x)
+        rownidx.sort()
+        rown = []
+        for k in rownidx:
+            rown.append(self.access(k))
         return rown
 
     # Print out an element of the matrix
