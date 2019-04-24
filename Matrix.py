@@ -1,5 +1,5 @@
 #!/usr/local/bin/python3
-# This import supports class annotations, e.g. def mulid(self) -> Elem
+
 '''
 Haskelle White
 Period 3 CSP
@@ -8,12 +8,9 @@ parameters: integers, floats, rationals, any number
 returns: An evaluated and solved matrix
 '''
 
+# This import supports class annotations, e.g. def mulid(self) -> Elem
 from __future__ import annotations
 
-# For now, only two-dimensional matrices are represented
-# Later we can generalize to n-dimensional matrices
-# Infinite dimensional matrices will require some more work :)
-# unless we use Haskell :)
 class Matrix():
     # The initial representation of the matrix
     matrix = {}
@@ -25,9 +22,11 @@ class Matrix():
 
     # Zero filled matrix (Additive identity for matrices)
     def zero(self,dim) -> Matrix:
-        for i in range(0, self.rows()):
-            for j in range(0, self.cols()):
+        zeroMatrix = { 'dim' : dim }
+        for i in range(0, dim[0]):
+            for j in range(0, dim[0]):
                 zeroMatrix[(i,j)] = 0
+        return Matrix(zeroMatrix)
 
     # Initializer for the matrix. It can be initialized by a dictionary
     def __init__ (self, d:dict):
@@ -48,8 +47,8 @@ class Matrix():
     # Argument dim: A pair specifying the size of the matrix
     # A typical call looks like: id((3,3))
     def id(self, dim) -> Matrix:
-        rowz = self.rows()
-        colz = self.cols()
+        rowz = dim[0]
+        colz = dim[1]
         identityMatrix = {'dim':dim}
         # Identity matrix must be a square matrix
         if rowz != colz:
@@ -122,11 +121,12 @@ class Matrix():
         rown = []
         for x in self.matrix:
             if x == 'dim': continue # Skip the dimension element
-            if x[0] == n: rown.append(x)
+            if x[0] == n: rown.append(self.access(x))
         return rown
 
     # Print out an element of the matrix
     def out(self) -> Matrix:
+        print('dim', self.dim())
         rowz = self.rows()
         for j in range(rowz):
             print(self.getNthRow(j))
