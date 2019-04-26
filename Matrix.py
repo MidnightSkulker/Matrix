@@ -92,6 +92,18 @@ class Matrix():
                 sumMatrix[(i,j)] = self.access((i,j)) + b.access((i,j))
         return Matrix(sumMatrix)
 
+    # Subtract two matrices
+    def sub(self, b:Matrix) -> Matrix:
+        return self.add(b.neg())
+
+    # Negative of matrix
+    def neg(self) -> Matrix:
+        negMatrix = {'dim':(self.rows(), self.cols())}
+        for i in range(0, self.rows()):
+            for j in range(0, self.cols()):
+                negMatrix[(i,j)] = - self.access((i,j))
+        return Matrix(negMatrix)
+
     # Raise a matrix a to an integer power n
     def power(self, a, n:int) -> Matrix:
         dim = a['dim']
@@ -130,17 +142,26 @@ class Matrix():
         return rown
 
     # Print out an element of the matrix
-    def out(self) -> Matrix:
-        print('dim', self.dim())
+    def out(self,s) -> Matrix:
+        print('matrix', s, 'with dimensions', self.dim())
         rowz = self.rows()
         for j in range(rowz):
             print(self.getNthRow(j))
 
 testMatrix1 = Matrix({'dim': (2,2), (0,0):7, (0,1):5, (1,0):2, (1,1):4})
 testMatrix2 = Matrix({'dim': (2,2), (1,1):4, (0,1):5, (1,0):2, (0,0):7})
+testMatrix3 = Matrix({'dim': (2,2), (0,0):-2, (0,1):3, (1,0):8, (1,1):0})
 
 testFile = open('test', 'r')
 
-# outMatrix1 = testMatrix1.mul(testMatrix2)
-# outMatrix1.out()
-
+testMatrix1.out('testMatrix1')
+testMatrix2.out('testMatrix2')
+testMatrix3.out('testMatrix3')
+outMatrix1 = testMatrix1.mul(testMatrix2)
+outMatrix1.out('outMatrix1')
+outMatrix2 = testMatrix3.neg()
+outMatrix2.out('outMatrix2')
+outMatrix3 = testMatrix1.add(testMatrix3)
+outMatrix3.out('outMatrix3')
+outMatrix4 = testMatrix1.sub(testMatrix3)
+outMatrix4.out('outMatrix4')
