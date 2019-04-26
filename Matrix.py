@@ -98,13 +98,6 @@ class Matrix():
                 negMatrix[(i,j)] = - self.access((i,j))
         return Matrix(negMatrix)
 
-    def copyMatrix(self) -> Matrix:
-        copyM = {'dim': self.dim()}
-        for i in range(0, self.rows()):
-            for j in range(0, self.cols()):
-                copyM[(i,j)] = self.access((i,j))
-        return Matrix(copyM)
-
     # Raise a matrix a to an integer power n
     def power(self, n:int) -> Matrix:
         # Can only do powers of a square matrix
