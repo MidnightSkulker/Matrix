@@ -13,6 +13,9 @@ from __future__ import annotations
 
 class Matrix():
     # The initial representation of the matrix
+    # Representation of the matrix
+    # The matrix will be a dictionary of indices with values, like this
+    # {'dim':(2,2), (0,0):1, (0,1):2, (1,0):0, (1,1):3}
     matrix = {}
 
     # Return the dimensions of the matrix
@@ -33,13 +36,6 @@ class Matrix():
         self.matrix = d
         return
 
-    # Identity matrix (all 1s on the diagonal, zeros elsewhere)
-    # This is the multiplicative identity for matrices
-
-    # Representation of the matrix
-    # The matrix will be a dictionary of indices with values, like this
-    # {'dim':(2,2), (0,0):1, (0,1):2, (1,0):0, (1,1):3}
-
     # The multiplicative identity for matrices, which is a square matrix that
     # has a 1 on each element of the diagonal, and zero everywhere else.
     # For example, the identity for 2 x 2 matrices is
@@ -47,10 +43,10 @@ class Matrix():
     # Argument dim: A pair specifying the size of the matrix
     # A typical call looks like: id((3,3))
     def identity(self, dim) -> Matrix:
-        identityMatrix = {'dim':dim}
         # Identity matrix must be a square matrix
         if dim[0] != dim[1]:
             return None
+        identityMatrix = {'dim':dim}
         # Enter 1 in each diagonal element, and 0 elsewhere
         for i in range(0,dim[0]):
             for j in range(0,dim[1]):
@@ -102,18 +98,22 @@ class Matrix():
                 negMatrix[(i,j)] = - self.access((i,j))
         return Matrix(negMatrix)
 
+    def copyMatrix(self) -> Matrix:
+        copyM = {'dim': self.dim()}
+        for i in range(0, self.rows()):
+            for j in range(0, self.cols()):
+                copyM[(i,j)] = self.access((i,j))
+        return Matrix(copyM)
+
     # Raise a matrix a to an integer power n
     def power(self, n:int) -> Matrix:
         # Can only do powers of a square matrix
         if self.rows() != self.cols():
             return None
-        print('We have a square matrix')
         powerMatrix = self.identity(self.dim())
-        powerMatrix.out('powerMatrix.1')
         for i in range(0, n):
             powerMatrix = powerMatrix.mul(self)
-        powerMatrix.out('powerMatrix.2')
-        return Matrix(powerMatrix)
+        return powerMatrix
 
     # Access the element at a given set of indices for the matrix
     def access(self, idx):
@@ -141,7 +141,7 @@ class Matrix():
 
     # Print out an element of the matrix
     def out(self,s) -> Matrix:
-        print('raw matrix', s, self.matrix)
+        # print('raw matrix', s, self.matrix)
         print('matrix', s, 'with dimensions', self.dim())
         rowz = self.rows()
         for j in range(rowz):
