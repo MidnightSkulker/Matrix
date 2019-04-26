@@ -46,16 +46,14 @@ class Matrix():
     # {'dim':(2,2), (0,0):1, (0,1):0, (1,0):0, (1,1):1}
     # Argument dim: A pair specifying the size of the matrix
     # A typical call looks like: id((3,3))
-    def id(self, dim) -> Matrix:
-        rowz = dim[0]
-        colz = dim[1]
+    def identity(self, dim) -> Matrix:
         identityMatrix = {'dim':dim}
         # Identity matrix must be a square matrix
-        if rowz != colz:
+        if dim[0] != dim[1]:
             return None
         # Enter 1 in each diagonal element, and 0 elsewhere
-        for i in range(0,colz):
-            for j in range(0,rowz):
+        for i in range(0,dim[0]):
+            for j in range(0,dim[1]):
                 # If it is a diagonal element
                 if i == j:
                     identityMatrix[(i,j)] = 1
@@ -105,17 +103,17 @@ class Matrix():
         return Matrix(negMatrix)
 
     # Raise a matrix a to an integer power n
-    def power(self, a, n:int) -> Matrix:
-        dim = a['dim']
-        rows = dim[0]
-        cols = dim[1]
+    def power(self, n:int) -> Matrix:
         # Can only do powers of a square matrix
-        if rows != cols:
+        if self.rows() != self.cols():
             return None
-        powerMatrix = id(dim)
+        print('We have a square matrix')
+        powerMatrix = self.identity(self.dim())
+        powerMatrix.out('powerMatrix.1')
         for i in range(0, n):
-            powerMatrix = mul(powerMatrix, a)
-        return powerMatrix
+            powerMatrix = powerMatrix.mul(self)
+        powerMatrix.out('powerMatrix.2')
+        return Matrix(powerMatrix)
 
     # Access the element at a given set of indices for the matrix
     def access(self, idx):
@@ -165,3 +163,7 @@ outMatrix3 = testMatrix1.add(testMatrix3)
 outMatrix3.out('outMatrix3')
 outMatrix4 = testMatrix1.sub(testMatrix3)
 outMatrix4.out('outMatrix4')
+outMatrix5 = testMatrix2.identity((2,2))
+outMatrix5.out('outMatrix5')
+outMatrix6 = testMatrix2.power(1)
+outMatrix6.out('outMatrix6')
