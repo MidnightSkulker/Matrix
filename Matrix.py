@@ -68,10 +68,10 @@ class Matrix():
         dima = self.dim()
         dimb = b.dim()
         # Number of columns in a must equal number of rows in b
-        if dima[1] != dimb[0]:
-            return None
         rows = dima[0]
         cols = dimb[1]
+        if dima[1] != dimb[0]:
+            return None
         productMatrix = {}
         for i in range(0, rows):
             for j in range(0, cols):
@@ -79,6 +79,13 @@ class Matrix():
                 for k in range(0, dima[1]):
                     productMatrix[(i,j)] += self.matrix[(i,k)] * b.access((k,j))
         return Matrix(self.naym() + '*' + b.naym(), (rows, cols), productMatrix)
+
+    def cmul(self, c) -> Matrix:
+        productMatrix = {}
+        for i in range(0, self.rows()):
+            for j in range(0, self.cols()):
+                productMatrix[(i,j)] = self.matrix[(i,j)] * c
+        return Matrix(str(c) + '*' + self.naym(), self.dim(), productMatrix)
 
     # Add two matrices
     def add(self, b:Matrix) -> Matrix:
@@ -91,17 +98,17 @@ class Matrix():
                 sumMatrix[(i,j)] = self.access((i,j)) + b.access((i,j))
         return Matrix(self.naym() + '+' + b.naym(), self.dim(), sumMatrix)
 
-    # Subtract two matrices
-    def sub(self, b:Matrix) -> Matrix:
-        return self.add(b.neg())
-
     # Negative of matrix
     def neg(self) -> Matrix:
         negMatrix = {}
         for i in range(0, self.rows()):
             for j in range(0, self.cols()):
                 negMatrix[(i,j)] = - self.access((i,j))
-        return Matrix('-' + self.nom, self.dim(), negMatrix)
+        return Matrix('(-' + self.nom + ')', self.dim(), negMatrix)
+
+    # Subtract two matrices
+    def sub(self, b:Matrix) -> Matrix:
+        return self.add(b.neg())
 
     # Raise a matrix a to an integer power n
     def power(self, n:int) -> Matrix:
@@ -167,3 +174,5 @@ outMatrix6 = outMatrix1.add(outMatrix2)
 outMatrix6.out()
 outMatrix7 = testMatrix1.power(3)
 outMatrix7.out()
+outMatrix8 = outMatrix7.cmul(4)
+outMatrix8.out()
