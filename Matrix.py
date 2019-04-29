@@ -136,16 +136,18 @@ class Matrix():
     # The matrix is presented as a dictionary in the input
     def read(self,f) -> Matrix:
         command = f.readline()
-        print('command', command)
+        # print('command', command)
         parts = strips(str.split(command, '|'))
-        print('parts', parts)
+        # print('parts', parts)
         if len(parts) == 3:
             nam = parts[0]
             dimm = eval(parts[1])
             arr = eval(parts[2])
         else:
             print('error', command)
-        return Matrix(nam, dimm, arr)
+        m = Matrix(nam, dimm, arr)
+        matrices[nam] = m
+        return m
 
     # Get the nth row of the matrix a, presented as a list
     def getNthRow(self, n):
@@ -168,6 +170,9 @@ class Matrix():
         rowz = self.rows()
         for j in range(rowz):
             print(self.getNthRow(j))
+
+# The global collection of matrices input or created by the user
+matrices = {}
 
 testMatrix1 = Matrix('testMatrix1', (2,2), {(0,0):7, (0,1):5, (1,0):2, (1,1):4})
 testMatrix2 = Matrix('testMatrix2', (2,2), {(1,1):4, (0,1):5, (1,0):2, (0,0):7})
