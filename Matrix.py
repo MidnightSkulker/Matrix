@@ -11,6 +11,13 @@ returns: Per method
 # This import supports class annotations, e.g. def mulid(self) -> Elem
 from __future__ import annotations
 
+# Strip spaces from each element of a list
+def strips(ss):
+    newss = []
+    for s in ss:
+        newss.append(s.strip())
+    return(newss)
+    
 class Matrix():
     # The initial representation of the matrix
     # Representation of the matrix
@@ -124,10 +131,21 @@ class Matrix():
     def access(self, idx):
         return self.matrix[idx]
 
+
     # Read in a matrix of the element type
     # The matrix is presented as a dictionary in the input
     def read(self,f) -> Matrix:
-        return Matrix(eval(f.read()))
+        command = f.readline()
+        print('command', command)
+        parts = strips(str.split(command, '|'))
+        print('parts', parts)
+        if len(parts) == 3:
+            nam = parts[0]
+            dimm = eval(parts[1])
+            arr = eval(parts[2])
+        else:
+            print('error', command)
+        return Matrix(nam, dimm, arr)
 
     # Get the nth row of the matrix a, presented as a list
     def getNthRow(self, n):
@@ -176,3 +194,9 @@ outMatrix7 = testMatrix1.power(3)
 outMatrix7.out()
 outMatrix8 = outMatrix7.cmul(4)
 outMatrix8.out()
+
+dummy = Matrix('dummy',(0,0), {})
+dummy.out ()
+
+m1 = dummy.read(testFile)
+m1.out()
