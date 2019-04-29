@@ -10,6 +10,7 @@ returns: Per method
 
 # This import supports class annotations, e.g. def mulid(self) -> Elem
 from __future__ import annotations
+import sys
 
 # Strip spaces from each element of a list
 def strips(ss):
@@ -174,15 +175,51 @@ class Matrix():
 # The global collection of matrices input or created by the user
 matrices = {}
 
+def isConst(s) -> bool:
+    try:
+        return type(eval(s)) is int
+    except:
+        return False
+
+# _ for negate
+# ! for new matrix
+# | for separating fields
+operators = ['+', '-', '*', '^', '_', '!']
+def isOperator(s) -> bool: return s in operators
+def command(s) -> str:
+    op = input('operation')
+    if isOperator(s):
+        if op == '+': # Addition operator
+            pass
+        elif op == '-': # Difference operator
+            pass
+        elif op == '*': # Multiplication operator
+            pass
+        elif op == '^': # Power operator
+            pass
+        elif op == '_': # Negation operator
+            pass
+        elif op == '!': # New matrix operator
+            pass
+        else:
+            sys.exit('operator' + op + 'is invalid')
+    else:
+        print('Invalid operation', op)
+
+#------------------------------------------------------------------------------
+# Test Data
+#------------------------------------------------------------------------------
 testMatrix1 = Matrix('testMatrix1', (2,2), {(0,0):7, (0,1):5, (1,0):2, (1,1):4})
 testMatrix2 = Matrix('testMatrix2', (2,2), {(1,1):4, (0,1):5, (1,0):2, (0,0):7})
 testMatrix3 = Matrix('testMatrix3', (2,2), {(0,0):-2, (0,1):3, (1,0):8, (1,1):0})
 
-testFile = open('test', 'r')
-
 testMatrix1.out()
 testMatrix2.out()
 testMatrix3.out()
+
+#------------------------------------------------------------------------------
+# Test Operations
+#------------------------------------------------------------------------------
 outMatrix1 = testMatrix1.mul(testMatrix2)
 outMatrix1.out()
 outMatrix2 = testMatrix3.neg()
@@ -203,5 +240,6 @@ outMatrix8.out()
 dummy = Matrix('dummy',(0,0), {})
 dummy.out ()
 
+testFile = open('test', 'r')
 m1 = dummy.read(testFile)
 m1.out()
