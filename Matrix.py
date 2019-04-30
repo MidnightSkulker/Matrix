@@ -188,9 +188,9 @@ operators = ['+', '-', '*', '^', '_', '!']
 def isOperator(s) -> bool: return s in operators
 def command(com:str) -> Matrix:
     op = com[0]
-    print('op', op)
+    # print('op', op)
     data = com[2:]
-    print('data', data)
+    # print('data', data)
     if isOperator(op):
         if op == '+': # Addition operator
             operands = str.split(data)
@@ -245,6 +245,19 @@ def command(com:str) -> Matrix:
     else:
         print('Invalid operation', op)
 
+def script(f:str):
+    fhandle = open(f, 'r')
+    done = False
+    while not done:
+        line = fhandle.readline()
+        if len(line) == 0:
+            break
+        print('Executing line:', line)
+        res = command(line)
+        res.out()
+        input()
+    fhandle.close()
+    
 #------------------------------------------------------------------------------
 # Test Data
 #------------------------------------------------------------------------------
@@ -280,8 +293,8 @@ def command(com:str) -> Matrix:
 # dummy.out ()
 
 testFile = open('test', 'r')
-# m1 = dummy.read(testFile)
-# m1 .out()
+# # m1 = dummy.read(testFile)
+# # m1 .out()
 l1 = testFile.readline()
 l2 = testFile.readline()
 l3 = testFile.readline()
