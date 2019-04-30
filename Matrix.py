@@ -194,20 +194,43 @@ def command(com:str) -> Matrix:
     if isOperator(op):
         if op == '+': # Addition operator
             operands = str.split(data)
-            operand1 = matrices[operands[0]]
-            operand2 = matrices[operands[1]]
-            operand3 = matrices[operands[1]]
-            outMatrix = operand1.add(operand2)
-            matrices[operand3] = outMatrix
+            operand0 = matrices[operands[0]]
+            operand1 = matrices[operands[1]]
+            operand2 = operands[2]
+            outMatrix = operand0.add(operand1)
+            matrices[operand2] = outMatrix
             return outMatrix
         elif op == '-': # Difference operator
-            pass
+            operands = str.split(data)
+            operand0 = matrices[operands[0]]
+            operand1 = matrices[operands[1]]
+            operand2 = operands[2]
+            outMatrix = operand0.sub(operand1)
+            matrices[operand2] = outMatrix
+            return outMatrix
         elif op == '*': # Multiplication operator
-            pass
+            operands = str.split(data)
+            operand0 = matrices[operands[0]]
+            operand1 = matrices[operands[1]]
+            operand2 = operands[2]
+            outMatrix = operand0.mul(operand1)
+            matrices[operand2] = outMatrix
+            return outMatrix
         elif op == '^': # Power operator
-            pass
+            operands = str.split(data)
+            operand0 = matrices[operands[0]]
+            operand1 = operands[1]
+            operand2 = operands[2]
+            outMatrix = operand0.power(int(operand1))
+            matrices[operand2] = outMatrix
+            return outMatrix
         elif op == '_': # Negation operator
-            pass
+            operands = str.split(data)
+            operand0 = matrices[operands[0]]
+            operand1 = operands[1]
+            outMatrix = operand0.neg()
+            matrices[operand1] = outMatrix
+            return outMatrix
         elif op == '!': # New matrix operator
             inputMatrix = eval(data)
             nom = inputMatrix['name']
@@ -259,3 +282,10 @@ def command(com:str) -> Matrix:
 testFile = open('test', 'r')
 # m1 = dummy.read(testFile)
 # m1 .out()
+l1 = testFile.readline()
+l2 = testFile.readline()
+l3 = testFile.readline()
+l4 = testFile.readline()
+l5 = testFile.readline()
+l6 = testFile.readline()
+l7 = testFile.readline()
