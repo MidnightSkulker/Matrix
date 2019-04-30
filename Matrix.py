@@ -186,11 +186,20 @@ def isConst(s) -> bool:
 # | for separating fields
 operators = ['+', '-', '*', '^', '_', '!']
 def isOperator(s) -> bool: return s in operators
-def command(s) -> str:
-    op = input('operation')
-    if isOperator(s):
+def command(com:str) -> Matrix:
+    op = com[0]
+    print('op', op)
+    data = com[2:]
+    print('data', data)
+    if isOperator(op):
         if op == '+': # Addition operator
-            pass
+            operands = str.split(data)
+            operand1 = matrices[operands[0]]
+            operand2 = matrices[operands[1]]
+            operand3 = matrices[operands[1]]
+            outMatrix = operand1.add(operand2)
+            matrices[operand3] = outMatrix
+            return outMatrix
         elif op == '-': # Difference operator
             pass
         elif op == '*': # Multiplication operator
@@ -200,7 +209,14 @@ def command(s) -> str:
         elif op == '_': # Negation operator
             pass
         elif op == '!': # New matrix operator
-            pass
+            inputMatrix = eval(data)
+            nom = inputMatrix['name']
+            dimm = inputMatrix['dim']
+            del inputMatrix['name']
+            del inputMatrix['dim']
+            out = Matrix(nom, dimm, inputMatrix)
+            matrices[nom] = out
+            return out
         else:
             sys.exit('operator' + op + 'is invalid')
     else:
@@ -209,37 +225,37 @@ def command(s) -> str:
 #------------------------------------------------------------------------------
 # Test Data
 #------------------------------------------------------------------------------
-testMatrix1 = Matrix('testMatrix1', (2,2), {(0,0):7, (0,1):5, (1,0):2, (1,1):4})
-testMatrix2 = Matrix('testMatrix2', (2,2), {(1,1):4, (0,1):5, (1,0):2, (0,0):7})
-testMatrix3 = Matrix('testMatrix3', (2,2), {(0,0):-2, (0,1):3, (1,0):8, (1,1):0})
+# testMatrix1 = Matrix('testMatrix1', (2,2), {(0,0):7, (0,1):5, (1,0):2, (1,1):4})
+# testMatrix2 = Matrix('testMatrix2', (2,2), {(1,1):4, (0,1):5, (1,0):2, (0,0):7})
+# testMatrix3 = Matrix('testMatrix3', (2,2), {(0,0):-2, (0,1):3, (1,0):8, (1,1):0})
 
-testMatrix1.out()
-testMatrix2.out()
-testMatrix3.out()
+# testMatrix1.out()
+# testMatrix2.out()
+# testMatrix3.out()
 
-#------------------------------------------------------------------------------
-# Test Operations
-#------------------------------------------------------------------------------
-outMatrix1 = testMatrix1.mul(testMatrix2)
-outMatrix1.out()
-outMatrix2 = testMatrix3.neg()
-outMatrix2.out()
-outMatrix3 = testMatrix1.add(testMatrix3)
-outMatrix3.out()
-outMatrix4 = testMatrix1.sub(testMatrix3)
-outMatrix4.out()
-outMatrix5 = testMatrix2.identity((2,2))
-outMatrix5.out()
-outMatrix6 = outMatrix1.add(outMatrix2)
-outMatrix6.out()
-outMatrix7 = testMatrix1.power(3)
-outMatrix7.out()
-outMatrix8 = outMatrix7.cmul(4)
-outMatrix8.out()
+# #------------------------------------------------------------------------------
+# # Test Operations
+# #------------------------------------------------------------------------------
+# outMatrix1 = testMatrix1.mul(testMatrix2)
+# outMatrix1.out()
+# outMatrix2 = testMatrix3.neg()
+# outMatrix2.out()
+# outMatrix3 = testMatrix1.add(testMatrix3)
+# outMatrix3.out()
+# outMatrix4 = testMatrix1.sub(testMatrix3)
+# outMatrix4.out()
+# outMatrix5 = testMatrix2.identity((2,2))
+# outMatrix5.out()
+# outMatrix6 = outMatrix1.add(outMatrix2)
+# outMatrix6.out()
+# outMatrix7 = testMatrix1.power(3)
+# outMatrix7.out()
+# outMatrix8 = outMatrix7.cmul(4)
+# outMatrix8.out()
 
-dummy = Matrix('dummy',(0,0), {})
-dummy.out ()
+# dummy = Matrix('dummy',(0,0), {})
+# dummy.out ()
 
 testFile = open('test', 'r')
-m1 = dummy.read(testFile)
-m1.out()
+# m1 = dummy.read(testFile)
+# m1 .out()
