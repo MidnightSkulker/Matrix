@@ -38,7 +38,7 @@ class Matrix():
     def zero(self,dim) -> Matrix:
         zeroMatrix = { 'dim' : dim }
         for i in range(0, dim[0]):
-            for j in range(0, dim[0]):
+            for j in range(0, dim[1]):
                 zeroMatrix[(i,j)] = 0
         return Matrix(zeroMatrix)
 
@@ -46,6 +46,12 @@ class Matrix():
     def __init__ (self, n:str, dim, d:dict):
         self.nom = n
         self.dimension = dim
+        for i in range(0, dim[0]):
+            for j in range(0, dim[1]):
+                if (i,j) in d:
+                    self.matrix[(i,j)] = d[(i,j)]
+                else:
+                    self.matrix[(i,j)] = 0
         self.matrix = d
         return
 
@@ -187,18 +193,39 @@ def isConst(s) -> bool:
 operators = ['+', '-', '*', '^', '_', '!']
 def isOperator(s) -> bool: return s in operators
 def command(com:str) -> Matrix:
+    # Here is a typical command, in this case to create a new matrix called 'm1'
+    # ! {'name':'m2', 'dim':(2,2), (1,1):4, (0,1):5, (1,0):2, (0,0):8}
+    # It is a 2 x 2 matrix, with the entries listed above.
+    # The operator is the first character, so op (below) will be '!'
     op = com[0]
-    # print('op', op)
+    # com will be the rest of the command, after the operator and the space
+    # So for the create command above, date will be the string:
+    # "{'name':'m2', 'dim':(2,2), (1,1):4, (0,1):5, (1,0):2, (0,0):8}"
     data = com[2:]
-    # print('data', data)
+    # Now handle each different operation separately.
     if isOperator(op):
         if op == '+': # Addition operator
+            # Split the data at the spaces. For the command:
+            # + o1 m3 o2
+            # operands will be ['o1', 'm3', 'o2']
             operands = str.split(data)
+            # Now get each operand. For our example operand0 will be 'o1',
+            # operand1 will be 'm3', and operand2 will be 'o2'.
+            # operand0 will the the *matrix* o1, looked up in the list of
+            # existing matrices.
             operand0 = matrices[operands[0]]
+            # operand1 will be the *matrix* m3, looked up in the list of
+            # existing matrices.
             operand1 = matrices[operands[1]]
+            # operand2 will be just the *string* 'o2', naming a matrix to be
+            # created.
             operand2 = operands[2]
+            # Perform the operation, which creates a new matrix in the
+            # outMatrix variable.
             outMatrix = operand0.add(operand1)
+            # Store the new matrix under the name 'o2' (in our example)
             matrices[operand2] = outMatrix
+            # Return the freshly created matrix.
             return outMatrix
         elif op == '-': # Difference operator
             operands = str.split(data)
